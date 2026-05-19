@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Feliz día, Antuanet</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="card">
+    <h1 class="title">Feliz día, Antuanet ❤️</h1>
+    <div class="hearts">
+      <span>💜</span>
+      <span>❤️</span>
+      <span>💖</span>
+      <span>💜</span>
+      <span>❤️</span>
+    </div>
+    <p class="subtitle">Te amo mucho. Esta página es unicamente para ti en un dia tan especial como este 19/5/2004💜.</p>
+
+    <section class="photo-section">
+      <div class="photo-wrap">
+        <picture>
+          <source srcset="assets/photo.webp" type="image/webp">
+          <img id="photo" src="assets/photo.jpg" alt="Foto de Antuanet y tú" onerror="this.onerror=null; this.src='assets/default-photo.svg'">
+        </picture>
+      </div>
+      <p class="photo-hint"> PD:tengo mas cosas pero estan presentando anomalias, si quieres te las envio por la tarde o solo dime, oki? o si no quieres dimelo y tambien ya perdi tiempo como para felicitarte primero de todos jaja 😅</p>
+    </section>
+
+    <section class="audio-section">
+      <p class="audio-hint">:</p>
+      <audio controls id="song">
+        <source src="assets/song.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+      <p class="audio-note"></p>
+    </section>
+
+    <section class="message">
+      <p>Hoy con toda la felicidad del mundo me reuní de valor. Para decirte Gracias por cada sonrisa, cada abrazo y por ser tan especial en mi vida. Te amo tanto que quiero y rece a Dios que te este yendo bien 💜💜💜. ¡Te quiero con locura!</p>
+    </section>
+
+    <footer class="footer">Hecho con amor y apoyo por... KV y cuidate por favor... ❤️</footer>
+  </main>
+  <!-- Debug panel -->
+  <div id="debug" style="position:fixed;right:12px;bottom:12px;background:rgba(0,0,0,0.7);color:#fff;padding:10px;border-radius:8px;font-size:13px;z-index:9999;">
+    <div id="debug-img">Imagen: comprobando...</div>
+    <div id="debug-audio">Audio: comprobando...</div>
+  </div>
+
+  <script>
+    // Comprueba si la imagen y el audio están accesibles
+    (function(){
+      const img = document.getElementById('photo');
+      const audio = document.getElementById('song');
+      const dbgImg = document.getElementById('debug-img');
+      const dbgAudio = document.getElementById('debug-audio');
+
+      function setStatus(el, ok, msg){
+        el.textContent = msg;
+        el.style.color = ok ? '#8ef' : '#f88';
+      }
+
+      // Imagen
+      const testImg = new Image();
+      testImg.onload = function(){ setStatus(dbgImg, true, 'Imagen: cargada correctamente'); };
+      testImg.onerror = function(){ setStatus(dbgImg, false, 'Imagen: NO encontrada (assets/photo.webp o photo.jpg)'); };
+      // intenta webp primero
+      testImg.src = 'assets/photo.webp';
+      // si no carga, prueba jpg después un pequeño delay
+      setTimeout(()=>{ if (!testImg.complete) testImg.src = 'assets/photo.jpg'; }, 350);
+
+      // Audio
+      if (audio){
+        fetch('assets/song.mp3', {method:'HEAD'}).then(r=>{
+          if (r.ok) setStatus(dbgAudio, true, 'Audio: presente (song.mp3)');
+          else setStatus(dbgAudio, false, 'Audio: NO encontrado (assets/song.mp3)');
+        }).catch(()=> setStatus(dbgAudio, false, 'Audio: NO encontrado (assets/song.mp3)'))
+      } else {
+        setStatus(dbgAudio, false, 'Audio: elemento no encontrado en la página');
+      }
+    })();
+  </script>
+</body>
+</html>
